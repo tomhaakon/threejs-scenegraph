@@ -45,6 +45,15 @@ function main() {
   scene.add(sunMesh)
   objects.push(sunMesh)
 
+  const earthMaterial = new THREE.MeshPhongMaterial({
+    color: 0x2233ff,
+    emissive: 0x112244,
+  })
+  const earthMesh = new THREE.Mesh(sphereGeometry, earthMaterial)
+  earthMesh.position.x = 10
+  scene.add(earthMesh)
+  objects.push(earthMesh)
+
   function resizeRendererToDisplaySize(renderer) {
     const canvas = renderer.domElement
     const width = canvas.clientWidth
