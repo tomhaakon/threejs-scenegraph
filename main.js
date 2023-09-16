@@ -14,7 +14,7 @@ function main() {
   const near = 0.1
   const far = 1000
   const camera = new THREE.PerspectiveCamera(fov, aspect, near, far)
-  camera.position.set(0, 50, 0)
+  camera.position.set(0, 150, 0)
   camera.up.set(0, 0, 1)
   camera.lookAt(0, 0, 0)
 
@@ -22,7 +22,7 @@ function main() {
 
   {
     const color = 0xffffff
-    const intensity = 3
+    const intensity = 500
     const light = new THREE.PointLight(color, intensity)
     scene.add(light)
   }
@@ -51,7 +51,7 @@ function main() {
   })
   const earthMesh = new THREE.Mesh(sphereGeometry, earthMaterial)
   earthMesh.position.x = 10
-  scene.add(earthMesh)
+  sunMesh.add(earthMesh)
   objects.push(earthMesh)
 
   function resizeRendererToDisplaySize(renderer) {
