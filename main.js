@@ -2,13 +2,15 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import { sendError } from './errorHandler.js'
+import { GUI } from 'three/addons/libs/lil-gui.module.min.js'
+
 sendError('Loaded', 'main.js')
 //const controls = new OrbitControls(camera, renderer.domElement);
 
 function main() {
   const canvas = document.querySelector('#c')
   const renderer = new THREE.WebGLRenderer({ antialias: true, canvas })
-
+  const gui = new GUI()
   const fov = 40
   const aspect = 2
   const near = 0.1
@@ -75,12 +77,45 @@ function main() {
   moonOrbit.add(moonMesh)
   objects.push(moonMesh)
 
-  objects.forEach((node) => {
-    const axes = new THREE.AxesHelper()
-    axes.material.depthTest = false
-    axes.renderOrder = 1
-    node.add(axes)
-  })
+  //*^ axisGridhelper
+  class AxisGridHelper {
+    constructor(node, units = 10) {
+      const axes = new THREE.AxesHelper()
+      axes.material.depthTest = false
+      axes.renderOrder = 2
+      node.add(axes)
+
+      const grid = new THREE.GridHelper(units, units)
+      grid.material.depthTest = false
+      grid.renderOrder = 1
+      node.add(grid)
+
+      this.grid = grid
+      this.axes = axes
+      this.visible = false
+    }
+    get visible() {
+      return this._visible
+    }
+    set visible(v) {
+      this._visible = v
+      this.grid.visible = v
+      this.axes.visible = v
+    }
+  }
+
+  //* axishelper
+  function makeAxisGrid(node, label, units) {
+    const helper = new AxisGridHelper(node, units)
+    gui.add(helper, 'visible').name(label)
+  }
+
+  makeAxisGrid(solarSystem, 'solarSystem', 25)
+  makeAxisGrid(sunMesh, 'sunMesh')
+  makeAxisGrid(earthOrbit, 'earthOrbit')
+  makeAxisGrid(earthMesh, 'earthMesh')
+  makeAxisGrid(moonOrbit, 'moonOrbit')
+  makeAxisGrid(moonMesh, 'moonMesh')
 
   function resizeRendererToDisplaySize(renderer) {
     const canvas = renderer.domElement
