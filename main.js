@@ -75,6 +75,13 @@ function main() {
   moonOrbit.add(moonMesh)
   objects.push(moonMesh)
 
+  objects.forEach((node) => {
+    const axes = new THREE.AxesHelper()
+    axes.material.depthTest = false
+    axes.renderOrder = 1
+    node.add(axes)
+  })
+
   function resizeRendererToDisplaySize(renderer) {
     const canvas = renderer.domElement
     const width = canvas.clientWidth
