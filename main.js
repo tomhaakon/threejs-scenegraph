@@ -39,10 +39,14 @@ function main() {
     heightSegments
   )
 
+  const solarSystem = new THREE.Object3D()
+  scene.add(solarSystem)
+  objects.push(solarSystem)
+
   const sunMaterial = new THREE.MeshPhongMaterial({ emissive: 0xffff00 })
   const sunMesh = new THREE.Mesh(sphereGeometry, sunMaterial)
   sunMesh.scale.set(5, 5, 5)
-  scene.add(sunMesh)
+  solarSystem.add(sunMesh)
   objects.push(sunMesh)
 
   const earthMaterial = new THREE.MeshPhongMaterial({
@@ -51,7 +55,7 @@ function main() {
   })
   const earthMesh = new THREE.Mesh(sphereGeometry, earthMaterial)
   earthMesh.position.x = 10
-  sunMesh.add(earthMesh)
+  solarSystem.add(earthMesh)
   objects.push(earthMesh)
 
   function resizeRendererToDisplaySize(renderer) {
